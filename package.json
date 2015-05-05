@@ -1,0 +1,27 @@
+{
+  "name": "buble-server",
+  "version": "0.0.0",
+  "description": "RESTful API server for Buble",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BubleDevelopers/buble-server"
+  },
+  "keywords": [
+    "api"
+  ],
+  "author": "Max Dumas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BubleDevelopers/buble-server/issues"
+  },
+  "homepage": "https://github.com/BubleDevelopers/buble-server",
+  "dependencies": {
+    "express": "^4.12.3",
+    "request": "^2.55.0"
+  }
+}
