@@ -22,7 +22,7 @@ app.get('/locations', function(req, res, next) {
 
 	request('https://maps.googleapis.com/maps/api/place/nearbysearch/json' +
 		'?key=AIzaSyBw5bpMFfpdFnXDOa2_iBn-VDt4ySOmUXk' +
-		'&radius=100' + 
+		'&rankby=distance' + 
 		'&type=establishment' +
 		'&location=' + lat + ',' + long, 
 		function(error, response, body) { 
