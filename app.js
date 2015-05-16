@@ -46,6 +46,12 @@ app.get('/address', function(req, res, next) {
 		});
 });
 
+app.get('/people', function(req, res, next) {
+	var placeId = req.query.placeId;
+
+	console.log(placeId);
+});
+
 var server = app.listen(3001, function () {
 
   var host = server.address().address;
