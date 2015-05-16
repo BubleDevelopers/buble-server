@@ -16,7 +16,7 @@ app.get('/', function(req, res, next) {
 	res.status(403).send('You are not allowed to access this resource.');
 });
 
-app.get('/locations', function(req, res, next) {
+app.get('/location/places', function(req, res, next) {
 	var lat = req.query.lat;
 	var long = req.query.long;
 
@@ -32,7 +32,7 @@ app.get('/locations', function(req, res, next) {
 		});
 });
 
-app.get('/address', function(req, res, next) {
+app.get('/location/address', function(req, res, next) {
 	var lat = req.query.lat;
 	var long = req.query.long;
 
@@ -46,10 +46,11 @@ app.get('/address', function(req, res, next) {
 		});
 });
 
-app.get('/people', function(req, res, next) {
+app.get('/location/people', function(req, res, next) {
 	var placeId = req.query.placeId;
 
 	console.log(placeId);
+	res.send('{ "value": "Hello there, traveler!" }');
 });
 
 var server = app.listen(3001, function () {
