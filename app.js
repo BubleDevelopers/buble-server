@@ -3,7 +3,6 @@
 'use strict';
 
 var express = require('express');
-var request = require('request');
 var app = express();
 
 app.use(function(req, res, next) {
@@ -16,42 +15,7 @@ app.get('/', function(req, res, next) {
 	res.status(403).send('You are not allowed to access this resource.');
 });
 
-app.get('/location/places', function(req, res, next) {
-	var lat = req.query.lat;
-	var long = req.query.long;
-
-	request('https://maps.googleapis.com/maps/api/place/nearbysearch/json' +
-		'?key=AIzaSyBw5bpMFfpdFnXDOa2_iBn-VDt4ySOmUXk' +
-		'&rankby=distance' + 
-		'&type=establishment' +
-		'&location=' + lat + ',' + long, 
-		function(error, response, body) { 
-			if(!error && response.statusCode === 200) {
-				res.send(body);
-			}
-		});
-});
-
-app.get('/location/address', function(req, res, next) {
-	var lat = req.query.lat;
-	var long = req.query.long;
-
-	request('https://maps.googleapis.com/maps/api/geocode/json' +
-		'?key=AIzaSyBw5bpMFfpdFnXDOa2_iBn-VDt4ySOmUXk' +
-		'&latlng=' + lat + ',' + long, 
-		function(error, response, body) { 
-			if(!error && response.statusCode === 200) {
-				res.send(body);
-			}
-		});
-});
-
-app.get('/location/people', function(req, res, next) {
-	var placeId = req.query.placeId;
-
-	console.log(placeId);
-	res.send('{ "value": "Hello there, traveler!" }');
-});
+app.use('/location', require('./routes/location'));
 
 var server = app.listen(3001, function () {
 
