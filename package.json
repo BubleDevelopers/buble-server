@@ -21,8 +21,9 @@
   },
   "homepage": "https://github.com/BubleDevelopers/buble-server",
   "dependencies": {
+    "body-parser": "^1.13.1",
     "express": "^4.12.3",
-    "mongoose": "^4.0.3",
+    "mongoose": "^4.0.5",
     "request": "^2.55.0"
   }
 }

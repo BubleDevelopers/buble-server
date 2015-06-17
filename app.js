@@ -1,9 +1,14 @@
-// AIzaSyBw5bpMFfpdFnXDOa2_iBn-VDt4ySOmUXk
-
 'use strict';
 
 var express = require('express');
+var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 var app = express();
+
+mongoose.connect('mongodb://localhost/buble0');
+
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 app.use(function(req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
@@ -11,11 +16,18 @@ app.use(function(req, res, next) {
 	next();
 });
 
-app.get('/', function(req, res, next) {
+app.use('/location', require('./routes/location'));
+app.use('/users', require('./routes/users'));
+
+app.get('/', function(req, res) {
 	res.status(403).send('You are not allowed to access this resource.');
 });
 
-app.use('/location', require('./routes/location'));
+// Error Handling Middleware
+app.use(function(err, req, res) {
+	console.error(err.message);
+	res.status(500).json(err);
+});
 
 var server = app.listen(3001, function () {
 
