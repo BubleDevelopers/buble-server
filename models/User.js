@@ -2,12 +2,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
-  username: String,
-  email: String,
-  fullname: String,
-  age: Number,
-  location: String,
-  gender: String
+	facebookId: { type: String, required: true },
+        googleId: { type: String, required: false },
+	twitterId: { type: String, required: false },
+	signupDate: { type: String, required: true, default: Date.now }
 });
 
 var User = mongoose.model('User', userSchema);
