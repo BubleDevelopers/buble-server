@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var checkinSchema = new Schema({
-	userID: { type: Schema.ObjectId, required: true },
+	userID: { type: Number, required: true },
 	location: { 
 		lat: { type: Number, required: true },
     		long: { type: Number, required: true },

@@ -46,7 +46,8 @@ router.post('/', function(req, res, next) {
 	var checkin = new Checkin(req.body);
 	checkin.save()
 		.then(function() {
-			res.status(201).end();
+			//res.status(201).end();
+			res.status(201).json(checkin);
 		}, function(err) {
 			return next(err);
 		});
