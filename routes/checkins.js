@@ -4,8 +4,10 @@ var express = require('express');
 var router = express.Router();
 var Checkin = require('../models/Checkin').Checkin;
 
+
+
 router.get('/near', function(req, res, next) {
-Checkin.find({ location.lat: req.querry.lat, location.long: req.querry.long })
+        Checkin.find({ location: { lat: req.querry.lat, long: req.querry.long } })
 		.then(function(checkins) {
 			res.status(200).json(checkins);
 		}, function(err) {
