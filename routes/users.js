@@ -1,4 +1,4 @@
-//'use strict';
+'use strict';
 
 var express = require('express');
 var router = express.Router();
@@ -12,7 +12,6 @@ router.get('/', function(req, res, next) {
 			return next(err);
 		});
 });
-
 
 // NEW CODE
 router.post('/', function(req, res) {
@@ -46,32 +45,6 @@ router.post('/', function(req, res) {
 		}
 	});
 });
-
-/*
-//OLD CODE
-router.post('/', function(req, res, next) {
-	console.log("Info about req.body:");
-	console.log(req.body);
-
-	var user = new User({
-	    facebookId: req.body.facebookId,
-	    googleId: req.body.googleId,
-	    twitterId: req.body.twitterId,
-	    signupDate: req.body.signupDate,
-	    invisible: req.body.invisible
-	});	
-
-        console.log(user);
-
-	user.save()
-		.then(function() {
-			res.status(201).end();
-		}, function(err) {
-			return next(err);
-		});
-});
-*/
-
 
 router.delete('/:id', function(req, res, next) {
 	User.remove({ _id: req.params.id })
