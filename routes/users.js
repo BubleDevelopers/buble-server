@@ -13,6 +13,15 @@ router.get('/', function(req, res, next) {
 		});
 });
 
+router.get('/:id', function(req, res, next) {
+	User.findById(req.params.id)
+		.then(function(user) {
+			res.status(200).json(user);
+		}, function(err) {
+			return next(err);
+		});
+});
+
 router.post('/', function(req, res, next) {
 	var user = new User(req.body);
 	user.save()
