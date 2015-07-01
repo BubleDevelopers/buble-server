@@ -13,7 +13,6 @@ router.get('/', function(req, res, next) {
 		});
 });
 
-// NEW CODE
 router.post('/', function(req, res) {
 	console.log("Info about req.body:");
 	console.log(req.body);
@@ -44,6 +43,15 @@ router.post('/', function(req, res) {
 			});
 		}
 	});
+});
+
+router.get('/:id', function(req, res, next) {
+	User.findById(req.params.id)
+		.then(function(user) {
+			res.status(200).json(user);
+		}, function(err) {
+			return next(err);
+		});
 });
 
 router.delete('/:id', function(req, res, next) {
