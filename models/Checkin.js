@@ -2,8 +2,12 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var checkinSchema = new Schema({
-	userID: { type: Number, required: true },
-	location: { type: Number, required: true }
+	userId: { type: Number, required: true },
+	location: { 
+		lat: { type: Number, required: true },
+		long: { type: Number, required: true },
+		placeId: { type: String, required: true }
+	}
 });
 
 var Checkin = mongoose.model('Checkin', checkinSchema);
