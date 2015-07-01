@@ -3,6 +3,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+//var facebookInit = require('/oauth/loadscript');
 var app = express();
 
 mongoose.connect('mongodb://localhost/buble0');
@@ -16,6 +17,14 @@ app.use(function(req, res, next) {
 	res.header('Access-Control-Allow-Method', '*');
 	next();
 });
+
+/*
+app.use(function(req, res, next) {
+	facebookInit
+	next();
+}
+*/
+
 
 app.use('/location', require('./routes/location'));
 app.use('/users', require('./routes/users'));
