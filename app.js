@@ -27,7 +27,7 @@ app.use(function(req, res, next) {
 
 
 app.use('/location', require('./routes/location'));
-app.use('/users', require('./routes/users'));
+app.use('/users', require('./routes/users')); 
 app.use('/checkins', require('./routes/checkins'));
 
 app.get('/', function(req, res) {

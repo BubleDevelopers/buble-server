@@ -4,6 +4,8 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/User').User;
 
+
+
 router.get('/', function(req, res, next) {
 	User.find()
 		.then(function(users) {
@@ -16,11 +18,6 @@ router.get('/', function(req, res, next) {
 
 // NEW CODE
 router.post('/', function(req, res) {
-	console.log("Info about req.body:");
-	console.log(req.body);
-
-	console.log("Info about res:");
-	console.log(res);
 
 	var user = new User({
 	    facebookId: req.body.facebookId,

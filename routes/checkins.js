@@ -42,6 +42,26 @@ router.get('/', function(req, res, next) {
 		});
 });
 
+// NEW CODE
+router.post('/', function(req, res, next) {
+	var checkin = new Checkin(req.body);
+	checkin.save(function(err, resp) {
+		if (err){
+			console.log(err);
+			res.send(
+				err //this line is for testing and can easily be changed later
+			);
+		} else {
+			res.send({
+				message: 'the checkin has been saved'
+			});
+		}
+	});
+});
+
+
+/*
+// OLD CODE
 router.post('/', function(req, res, next) {
 	var checkin = new Checkin(req.body);
 	checkin.save()
@@ -52,6 +72,7 @@ router.post('/', function(req, res, next) {
 			return next(err);
 		});
 });
+*/
 
 router.delete('/:id', function(req, res, next) {
 	Checkin.remove({ _id: req.params.id })
