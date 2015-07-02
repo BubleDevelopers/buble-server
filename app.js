@@ -3,7 +3,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-//var facebookInit = require('/oauth/loadscript');
+//var facebookInit = require('./oauth/loadscript');
 var app = express();
 
 mongoose.connect('mongodb://localhost/buble0');
