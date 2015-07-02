@@ -15,8 +15,8 @@ router.get('/near', function(req, res, next) {
 		});
 });
 
-router.get('/place/:placeid', function(req, res, next) {
-	Checkin.find({ placeId: req.params.place })
+router.get('/place/:placeId', function(req, res, next) {
+	Checkin.find({ "location.placeId": req.params.placeId })
 		.then(function(checkins) {
 			res.status(200).json(checkins);
 		}, function(err) {
