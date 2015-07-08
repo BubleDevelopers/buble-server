@@ -58,7 +58,7 @@ router.delete('/id', function(req, res, next) {
 	});
 	console.log("Req.body:");
 	console.log(req.body);
-	User.remove({ _id: "ObjectId(" + req.body.id + ")" }, function(err) {
+	User.remove({ _id : req.body._id }, function(err) {
 		console.log(err);
 		console.log('now inside of the function(err)');
 		/*
@@ -66,7 +66,6 @@ router.delete('/id', function(req, res, next) {
 			message: 'now inside of the function(err)'
 		});
 		*/
-		console.log('this is a test');
 		if (err)
 		{
 			console.log('there was an error');
@@ -87,7 +86,6 @@ router.delete('/id', function(req, res, next) {
 		}
 
 	});
-	console.log('SUCCESS');
 });
 
 /*

@@ -15,7 +15,7 @@ router.get('/near', function(req, res, next) {
 		});
 });
 
-router.get('/place/:placeId', function(req, res, next) {
+router.get('/place/placeId', function(req, res, next) {
 	Checkin.find({ "location.placeId": req.params.placeId })
 		.then(function(checkins) {
 			res.status(200).json(checkins);
@@ -24,7 +24,7 @@ router.get('/place/:placeId', function(req, res, next) {
 		});
 });
 
-router.get('/:id', function(req, res, next) {
+router.get('/id', function(req, res, next) {
 	Checkin.find({ _id: req.params.id })
 		.then(function(checkins) {
 			res.status(200).json(checkins);
@@ -44,7 +44,12 @@ router.get('/', function(req, res, next) {
 
 // NEW CODE
 router.post('/', function(req, res, next) {
-	var checkin = new Checkin(req.body);
+	
+	var checkin = new Checkin({
+		userId: req.body.userId,
+		location: req.body.location
+	});
+	
 	checkin.save(function(err, resp) {
 		if (err){
 			console.log(err);
@@ -74,15 +79,35 @@ router.post('/', function(req, res, next) {
 });
 */
 
-router.delete('/:id', function(req, res, next) {
-	Checkin.remove({ _id: req.params.id })
-		.then(function() {
-			res.status(204).end();
-		}, function (err) {
-			if (err) {
-				return next(err);
-			}
+router.delete('/id', function(req, res, next) {
+	Checkin.remove({ _id: req.body._id }, function(err) {
+		console.log(err);
+		console.log('now inside of the function(err)');
+		/*
+		res.send({
+			message: 'now inside of the function(err)'
 		});
+		*/
+		if (err)
+		{
+			console.log('there was an error');
+			/*
+			res.send({
+				message: 'there was an error'
+			});
+			*/
+		}
+		else
+		{
+			console.log('the checkin has been deleted');
+			/*
+			res.send({
+				message: 'the user has been deleted'
+			});
+			*/
+		}
+
+	});
 });
 
 module.exports = router;
