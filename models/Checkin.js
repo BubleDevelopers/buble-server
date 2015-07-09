@@ -21,7 +21,7 @@ var checkinSchema = new Schema({
 
 var checkinSchema = new Schema({
 	userId: { type: Number, required: true },
-	location: { type: Number, required: true }
+	location: { type: String, required: true }
 });
 
 

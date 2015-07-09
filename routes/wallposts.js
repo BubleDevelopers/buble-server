@@ -2,25 +2,13 @@
 
 var express = require('express');
 var router = express.Router();
-var Checkin = require('../models/Checkin').Checkin;
-
-
-// NOT USING THIS RIGHT NOW:
-// UNTESTED
-router.get('/near', function(req, res, next) {
-        Checkin.find({ location: { lat: req.querry.lat, long: req.querry.long } })
-		.then(function(checkins) {
-			res.status(200).json(checkins);
-		}, function(err) {
-			return next(err);
-		});
-});
+var WallPost = require('../models/WallPost').WallPost;
 
 // could not get the syntax for URK request
 router.get('/place/:placeId', function(req, res, next) {
-	Checkin.find({ location : req.params.placeId })
-		.then(function(checkins) {
-			res.status(200).json(checkins);
+	WallPost.find({ location : req.params.placeId })
+		.then(function(wallPosts) {
+			res.status(200).json(wallPosts);
 		}, function(err) {
 			return next(err);
 		});
@@ -29,33 +17,35 @@ router.get('/place/:placeId', function(req, res, next) {
 // could not get the syntax for URK request
 router.get('/:id', function(req, res, next) {
 	console.log(req);
-	Checkin.find({ _id: req.params._id })
-		.then(function(checkins) {
-			res.status(200).json(checkins);
+	WallPost.find({ _id: req.params._id })
+		.then(function(wallPosts) {
+			res.status(200).json(wallPosts);
 		}, function(err) {
 			return next(err);
 		});
 });
 
-// test works
+// tested successfully
 router.get('/', function(req, res, next) {
-	Checkin.find()
-		.then(function(checkins) {
-			res.status(200).json(checkins);
+	WallPost.find()
+		.then(function(wallPosts) {
+			res.status(200).json(wallPosts);
 		}, function(err) {
 			return next(err);
 		});
 });
 
-// test works
+// tested successfully
 router.post('/', function(req, res, next) {
 	
-	var checkin = new Checkin({
-		userId: req.body.userId,
-		location: req.body.location
+	var wallPost = new WallPost({
+		content: req.body.content,
+		rating: req.body.rating,
+	        location: req.body.location,
+	        timeOfPost: req.body.timeOfPost
 	});
 	
-	checkin.save(function(err, resp) {
+	wallPost.save(function(err, resp) {
 		if (err){
 			console.log(err);
 			res.send(
@@ -63,15 +53,15 @@ router.post('/', function(req, res, next) {
 			);
 		} else {
 			res.send({
-				message: 'the checkin has been saved'
+				message: 'the wallpost has been saved'
 			});
 		}
 	});
 });
 
-// test works
+// tested successfully
 router.delete('/:id', function(req, res, next) {
-	Checkin.remove({ _id: req.body._id }, function(err) {
+	WallPost.remove({ _id: req.body._id }, function(err) {
 		console.log(err);
 		console.log('now inside of the function(err)');
 		/*
@@ -90,7 +80,7 @@ router.delete('/:id', function(req, res, next) {
 		}
 		else
 		{
-			console.log('the checkin has been deleted');
+			console.log('the wallpost has been deleted');
 			/*
 			res.send({
 				message: 'the user has been deleted'
@@ -102,4 +92,5 @@ router.delete('/:id', function(req, res, next) {
 });
 
 module.exports = router;
+
 

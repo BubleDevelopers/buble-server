@@ -1,3 +1,13 @@
+var express = require('express');
+var router = express.Router();
+var User = require('../models/User').User
+
+var firstName;
+var lastName;
+var emailAddress;
+var fbid;
+var picture;
+
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
     console.log('statusChangeCallback');
@@ -13,6 +23,21 @@
       // testAPI();     //
       // testFriends(); //
       ////////////////////
+      
+	    grabUserInfo();
+	    grabUserPic();
+
+	    var user = new User({
+	        first_name: firstName,
+	        last_name: lastName,
+	        email: emailAddress,
+	        facebookId: fbid,
+	        pictureURL: picture    
+	    });
+
+	    /////////////////////////////////////////
+	    // NOT SURE HOW TO POST THIS FROM HERE //
+	    /////////////////////////////////////////
 
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
@@ -46,6 +71,31 @@
   exports.checkLoginState(statusChangeCallback);
 }; 
 
+
+  // get name and write it to document field 'status'
+  function grabUserInfo() {
+    console.log('Now grabbing facebook info....');
+	FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      // email	first_name	last_name	id
+
+      firstName: response.first_name;
+      lastName: response.last_name;
+      emailAddress: response.body.email;
+      fbid: response.id;
+	
+    });
+  }
+
+  // get name and write it to document field 'status'
+  function grabUserPic() {
+    console.log('Now grabbing your profile picture....');
+	FB.api('/me/picture', function(response) {
+
+	// picture: data.url	     
+	picture: response.data.url;
+    });
+  }
 /*
   // get name and write it to document field 'status'
   function testAPI() {

@@ -5,7 +5,7 @@ var router = express.Router();
 var User = require('../models/User').User;
 
 
-
+// test works
 router.get('/', function(req, res, next) {
 	User.find()
 		.then(function(users) {
@@ -15,9 +15,14 @@ router.get('/', function(req, res, next) {
 		});
 });
 
+// test works
 router.post('/', function(req, res) {
 
 	var user = new User({
+	    first_name: req.body.first_name,
+	    last_name: req.body.last_name,
+	    email: req.body.email,
+	    pictureURL: req.body.pictureURL,
 	    facebookId: req.body.facebookId,
 	    googleId: req.body.googleId,
 	    twitterId: req.body.twitterId,
@@ -42,8 +47,9 @@ router.post('/', function(req, res) {
 	});
 });
 
-router.get('/id', function(req, res, next) {
-	User.findById(req.params.id)
+// could not get the syntax for URK request
+router.get('/:id', function(req, res, next) {
+	User.findById(req.params._id)
 		.then(function(user) {
 			res.status(200).json(user);
 		}, function(err) {
@@ -51,8 +57,8 @@ router.get('/id', function(req, res, next) {
 		});
 });
 
-// NEW CODE
-router.delete('/id', function(req, res, next) {
+// test works
+router.delete('/:id', function(req, res, next) {
 	res.send({
 		message: 'we are inside the delete user method'
 	});
@@ -87,31 +93,5 @@ router.delete('/id', function(req, res, next) {
 
 	});
 });
-
-/*
-// OLD CODE
-router.delete('/id', function(req, res, next) {
-	res.send({
-		message: 'we are inside the delete user method'
-	});
-	User.remove({ _id: req.params.id })
-		.then(function() {
-			res.status(204).end();
-			res.send({
-				message: 'the user has been deleted'
-			});
-		}, function (err) {
-			res.send({
-				message: 'there was an error'
-			});
-			if (err) {
-				return next(err);
-			}
-		});
-	res.send({
-		message: 'we are exiting the delete user method'
-	});
-});
-*/
 
 module.exports = router;

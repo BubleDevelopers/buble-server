@@ -29,6 +29,7 @@ app.use(function(req, res, next) {
 app.use('/location', require('./routes/location'));
 app.use('/users', require('./routes/users')); 
 app.use('/checkins', require('./routes/checkins'));
+app.use('/wallposts', require('./routes/wallposts'));
 
 app.get('/', function(req, res) {
 	res.status(403).send('You are not allowed to access this resource.');
