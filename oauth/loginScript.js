@@ -27,6 +27,9 @@ var picture;
 	    grabUserInfo();
 	    grabUserPic();
 
+	    // Can't get information to persist so going to do this
+	    // inside of grabUserInfo for now
+	    /*
 	    var user = new User({
 	        first_name: firstName,
 	        last_name: lastName,
@@ -34,6 +37,22 @@ var picture;
 	        facebookId: fbid,
 	        pictureURL: picture    
 	    });
+
+	    	user.save(function(err, resp) {
+		if (err){
+			console.log(err);
+			res.send(
+				err
+			);
+		} else {
+			console.log('the user has been saved');
+			res.send({
+				message: 'the user has been saved'
+			});
+		}
+		*/
+	});
+	    
 
 	    /////////////////////////////////////////
 	    // NOT SURE HOW TO POST THIS FROM HERE //
@@ -79,10 +98,25 @@ var picture;
       console.log('Successful login for: ' + response.name);
       // email	first_name	last_name	id
 
-      firstName: response.first_name;
-      lastName: response.last_name;
-      emailAddress: response.body.email;
-      fbid: response.id;
+	 var user = new User({
+	        first_name: response.first_name,
+	        last_name: response.last_name,
+	        email: response.email,
+	        facebookId: response.id
+	    });
+
+	    	user.save(function(err, resp) {
+		if (err){
+			console.log(err);
+			res.send(
+				err
+			);
+		} else {
+			console.log('the user has been saved');
+			res.send({
+				message: 'the user has been saved'
+			});
+		}
 	
     });
   }
@@ -94,6 +128,9 @@ var picture;
 
 	// picture: data.url	     
 	picture: response.data.url;
+
+        var query = { facebookId: response.id };
+	Model.update(query, { name: 'jason borne' }, options, callback)
     });
   }
 /*
