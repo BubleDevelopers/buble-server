@@ -27,10 +27,8 @@ var picture;
 	    grabUserInfo();
 	    grabUserPic();
 
-	    // Can't get information to persist so going to do this
-	    // inside of grabUserInfo for now
-	    /*
-	    var user = new User({
+	    //create a user object with the information gathered from two above methods
+		var user = new User({
 	        first_name: firstName,
 	        last_name: lastName,
 	        email: emailAddress,
@@ -38,25 +36,19 @@ var picture;
 	        pictureURL: picture    
 	    });
 
-	    	user.save(function(err, resp) {
-		if (err){
-			console.log(err);
-			res.send(
-				err
-			);
-		} else {
-			console.log('the user has been saved');
-			res.send({
-				message: 'the user has been saved'
-			});
-		}
-		*/
-	});
-	    
-
-	    /////////////////////////////////////////
-	    // NOT SURE HOW TO POST THIS FROM HERE //
-	    /////////////////////////////////////////
+	   	user.save(function(err, resp) {
+			if (err){
+				console.log(err);
+				res.send(
+					err
+				);
+			} else {
+				console.log('the user has been saved');
+				res.send({
+					message: 'the user has been saved'
+				});
+			}
+		});
 
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
@@ -98,12 +90,10 @@ var picture;
       console.log('Successful login for: ' + response.name);
       // email	first_name	last_name	id
 
-	 var user = new User({
-	        first_name: response.first_name,
-	        last_name: response.last_name,
-	        email: response.email,
-	        facebookId: response.id
-	    });
+        first_name = response.first_name;
+        last_name = response.last_name;
+        email = response.email;
+        facebookId = response.id;
 
 	    	user.save(function(err, resp) {
 		if (err){
@@ -127,7 +117,7 @@ var picture;
 	FB.api('/me/picture', function(response) {
 
 	// picture: data.url	     
-	picture: response.data.url;
+	picture = response.data.url;
 
         var query = { facebookId: response.id };
 	Model.update(query, { name: 'jason borne' }, options, callback)

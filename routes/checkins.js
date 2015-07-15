@@ -16,7 +16,7 @@ router.get('/near', function(req, res, next) {
 		});
 });
 
-// could not get the syntax for URK request
+// could not get the syntax for URL request
 router.get('/place/:placeId', function(req, res, next) {
 	Checkin.find({ location : req.params.placeId })
 		.then(function(checkins) {
@@ -26,7 +26,7 @@ router.get('/place/:placeId', function(req, res, next) {
 		});
 });
 
-// could not get the syntax for URK request
+// could not get the syntax for URL request
 router.get('/:id', function(req, res, next) {
 	console.log(req);
 	Checkin.find({ _id: req.params._id })
