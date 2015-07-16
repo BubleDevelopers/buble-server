@@ -4,9 +4,12 @@ var express = require('express');
 var router = express.Router();
 var WallPost = require('../models/WallPost').WallPost;
 
-// could not get the syntax for URK request
+// test works
+// localhost:3001/wallposts/place/:placeId?placeId=2
 router.get('/place/:placeId', function(req, res, next) {
-	WallPost.find({ location : req.params.placeId })
+	console.log(req.query);
+	console.log(req.query.placeId);
+	WallPost.find({ location : req.query.placeId })
 		.then(function(wallPosts) {
 			res.status(200).json(wallPosts);
 		}, function(err) {
@@ -14,10 +17,11 @@ router.get('/place/:placeId', function(req, res, next) {
 		});
 });
 
-// could not get the syntax for URK request
+// test works
+// localhost:3001/wallposts/:id?_id=559ee3d5347da39805a40e59
 router.get('/:id', function(req, res, next) {
-	console.log(req);
-	WallPost.find({ _id: req.params._id })
+	console.log(req.query);
+	WallPost.findById(req.query._id)
 		.then(function(wallPosts) {
 			res.status(200).json(wallPosts);
 		}, function(err) {
@@ -60,6 +64,7 @@ router.post('/', function(req, res, next) {
 });
 
 // tested successfully
+// 
 router.delete('/:id', function(req, res, next) {
 	WallPost.remove({ _id: req.body._id }, function(err) {
 		console.log(err);
