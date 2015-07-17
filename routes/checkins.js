@@ -19,7 +19,7 @@ router.get('/near', function(req, res, next) {
 // test works
 // localhost:3001/checkins/place/:placeId?placeId=2
 router.get('/place/:placeId', function(req, res, next) {
-	Checkin.find({ location : req.query.placeId })
+		Checkin.find({ location : req.params.placeId })
 		.then(function(checkins) {
 			res.status(200).json(checkins);
 		}, function(err) {
@@ -30,9 +30,9 @@ router.get('/place/:placeId', function(req, res, next) {
 // test works
 // localhost:3001/checkins/:id?_id=559ee3d5347da39805a40e59
 router.get('/:id', function(req, res, next) {
-	console.log(req.query);
-	Checkin.find({ _id: req.query._id })
-		.then(function(checkins) {
+	console.log(req);
+	Checkin.find({ _id: req.params._id })
+	.then(function(checkins) {
 			res.status(200).json(checkins);
 		}, function(err) {
 			return next(err);

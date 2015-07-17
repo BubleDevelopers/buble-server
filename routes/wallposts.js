@@ -7,10 +7,8 @@ var WallPost = require('../models/WallPost').WallPost;
 // test works
 // localhost:3001/wallposts/place/:placeId?placeId=2
 router.get('/place/:placeId', function(req, res, next) {
-	console.log(req.query);
-	console.log(req.query.placeId);
-	WallPost.find({ location : req.query.placeId })
-		.then(function(wallPosts) {
+	WallPost.find({ location : req.params.placeId })		
+	.then(function(wallPosts) {
 			res.status(200).json(wallPosts);
 		}, function(err) {
 			return next(err);
@@ -20,8 +18,8 @@ router.get('/place/:placeId', function(req, res, next) {
 // test works
 // localhost:3001/wallposts/:id?_id=559ee3d5347da39805a40e59
 router.get('/:id', function(req, res, next) {
-	console.log(req.query);
-	WallPost.findById(req.query._id)
+	console.log(req);
+		WallPost.find({ _id: req.params._id })
 		.then(function(wallPosts) {
 			res.status(200).json(wallPosts);
 		}, function(err) {

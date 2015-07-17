@@ -49,8 +49,7 @@ router.post('/', function(req, res) {
 
 // test works
 router.get('/:id', function(req, res, next) {
-	console.log(req.query);
-	User.findById(req.query._id)
+		User.findById(req.params._id)
 		.then(function(user) {
 			res.status(200).json(user);
 		}, function(err) {
