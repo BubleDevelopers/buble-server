@@ -47,9 +47,10 @@ router.post('/', function(req, res) {
 	});
 });
 
-// could not get the syntax for URK request
+// test works
 router.get('/:id', function(req, res, next) {
-	User.findById(req.params._id)
+	console.log(req.query);
+	User.findById(req.query._id)
 		.then(function(user) {
 			res.status(200).json(user);
 		}, function(err) {
