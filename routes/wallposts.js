@@ -17,7 +17,7 @@ router.delete('/:id', handlers.basicDelete(WallPost));
 // test works
 // localhost:3001/wallposts/place/2
 router.get('/place/:placeId', function(req, res, next) {
-	return handlers.basicGet(WallPost, {query:{'location.placeId': req.params.placeId}});
+	return handlers.basicGet(WallPost, {query:{'location.placeId': req.params.placeId}})(res, req, next);
 });
 
 module.exports = router;
