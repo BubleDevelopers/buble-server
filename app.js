@@ -1,6 +1,7 @@
 'use strict';
 
 var express = require('express');
+var cors = require('cors');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 //var facebookInit = require('./oauth/loadscript');
@@ -10,13 +11,7 @@ mongoose.connect('mongodb://localhost/buble0');
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-www-form-urlencoded
-
-app.use(function(req, res, next) {
-	res.header('Access-Control-Allow-Origin', '*');
-	res.header('Access-Control-Allow-Headers', 'Content-Type');
-	res.header('Access-Control-Allow-Method', '*');
-	next();
-});
+app.use(cors());
 
 /*
 app.use(function(req, res, next) {
@@ -24,7 +19,6 @@ app.use(function(req, res, next) {
 	next();
 }
 */
-
 
 app.use('/location', require('./routes/location'));
 app.use('/users', require('./routes/users'));
