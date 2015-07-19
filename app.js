@@ -9,7 +9,7 @@ var app = express();
 mongoose.connect('mongodb://localhost/buble0');
 
 app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-www-form-urlencoded
 
 app.use(function(req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
@@ -27,7 +27,7 @@ app.use(function(req, res, next) {
 
 
 app.use('/location', require('./routes/location'));
-app.use('/users', require('./routes/users')); 
+app.use('/users', require('./routes/users'));
 app.use('/checkins', require('./routes/checkins'));
 app.use('/wallposts', require('./routes/wallposts'));
 
@@ -41,10 +41,9 @@ app.use(function(err, req, res) {
 	res.status(500).json(err);
 });
 
-var server = app.listen(3001, function () {
+var server = app.listen(3001, function() {
+	var host = server.address().address;
+	var port = server.address().port;
 
-  var host = server.address().address;
-  var port = server.address().port;
-
-  console.log('Example app listening at http://%s:%s', host, port);
+	console.log('Example app listening at http://%s:%s', host, port);
 });
