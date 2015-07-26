@@ -20,18 +20,19 @@ API for Buble
 The server wil run at [http://localhost:3001/](http://localhost:3001/).
 
 
-////////////
-// ROUTES //
-////////////
+## Route Descriptions
 
-..............
-.. Checkins ..
-..............
+Checkins
 
 GET /api/checkins/near
-*Description*: Returns all checkins within entered radius of entered longitude and latitude
-*Example*: localhost:3001/checkins/near?lat=5&long=8&rad=2
-*Returns*: A list of checkins in JSON format. Each checkin will be in the below format
+
+Description: Returns all checkins within entered radius of entered longitude and latitude
+
+Example: localhost:3001/checkins/near?lat=5&long=8&rad=2
+
+Returns: A list of checkins in JSON format. Each checkin will be in the below format
+
+```json
 {
 	userId: ~,
 	location: 
@@ -43,11 +44,17 @@ GET /api/checkins/near
 	arrived: ~,
 	left: ~
 }
+```
 
 GET /api/checkins/place/:placeId
-*Description*: Returns all checkins with entered placeId
-*Example*: localhost:3001/place/987654321
-*Returns*: A list of checkins in JSON format. Each checkin will be in the below format
+
+Description: Returns all checkins with entered placeId
+
+Example: localhost:3001/place/987654321
+
+Return: A list of checkins in JSON format. Each checkin will be in the below format
+
+```json
 {
 	userId: ~,
 	location: 
@@ -59,14 +66,17 @@ GET /api/checkins/place/:placeId
 	arrived: ~,
 	left: ~
 }
+```
 
-...........
-.. Users ..
-...........
+Users
 
 GET /api/users/me
-*Description*: Returns current user
-*Returns*: A user in JSON format
+
+Description: Returns current user
+
+Returns: A user in JSON format
+
+```json
 {
 	firstName: ~,
 	lastName: ~,
@@ -78,15 +88,19 @@ GET /api/users/me
 	signupDate: ~,
 	invisible: ~
 }
+```
 
-...............
-.. Wallposts ..
-...............
+Wallposts
 
 GET /api/wallposts/near
-*Description*: Returns all wallposts within entered radius of entered longitude and latitude
-*Example*: localhost:3001/wallpost/near?lat=5&long=8&rad=2
-*Returns*: A list of wallposts in JSON format. Each checkin will be in the below format
+
+Description: Returns all wallposts within entered radius of entered longitude and latitude
+
+Example: localhost:3001/wallpost/near?lat=5&long=8&rad=2
+
+Returns: A list of wallposts in JSON format. Each checkin will be in the below format
+
+```json
 {
 	content: ~ ,
 	rating: ~ ,
@@ -98,12 +112,14 @@ GET /api/wallposts/near
 	}
 	timeOfPost: ~
 }
-
+```
 
 GET /api/wallposts/place/:placeId
-*Description*: Returns all wallposts with entered placeId
-*Example*: localhost:3001/place/987654321
-*Returns*: A list of wallposts in JSON format. Each wallpost will be in the below format
+Description: Returns all wallposts with entered placeId
+Example: localhost:3001/place/987654321
+Returns: A list of wallposts in JSON format. Each wallpost will be in the below format
+
+```json
 {
 	userId: ~,
 	location: 
@@ -115,10 +131,17 @@ GET /api/wallposts/place/:placeId
 	arrived: ~,
 	left: ~
 }
+```
 
 
 GET /api/wallposts/avg
-*Description*: Returns an aggregation object that contains the average rating of all wallposts from the input location
-*Example*: localhost:3001/avg?loc="2"
-*Returns*: A mongodb aggregation object in JSON format
+
+Description: Returns an aggregation object that contains the average rating of all wallposts from the input location
+
+Example: localhost:3001/avg?loc="2"
+
+Returns: A mongodb aggregation object in JSON format
+
+```json
 { "_id" : "2", "avgRating": 3.5 }
+```
