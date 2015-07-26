@@ -26,7 +26,7 @@ router.delete('/:id', handlers.basicDelete(WallPost));
 [phonegap] n.event.add/r.handle@http://localhost:3000/js/lib/jquery.min.js:3:3202
 */
 // test works
-// localhost:3001/wallposts/place/2
+// localhost:3001/wallposts/near?lat=5&long=5&rad=2
 router.get('/near', function(req, res, next) 
 {
 	var lat = req.params.lat;
@@ -34,9 +34,10 @@ router.get('/near', function(req, res, next)
 	var rad = req.params.rad;
 	if (req.params.lat !== undefined && req.params.long !== undefined && req.params.rad !== undefined)
 	{
+		//was getting weird errors that ended up being due to the + sigh acting as a concatenator instead of adding two variables. changed it to a - sign and everything worked correctly
 		Wallpost.find( { "location.lat": { $gt: (lat - rad), $lt: (lat - (rad * -1)) }, "location.long": { $gt: (long - rad), $lt: (long - (rad * -1)) } } )
-			.then(function(checkins) {
-				res.status(200).json(checkins);
+			.then(function(wallposts) {
+				res.status(200).json(wallposts);
 			}, function(err) {
 				return next(err);
 			});
@@ -48,10 +49,11 @@ router.get('/near', function(req, res, next)
 });
 
 // untested because of above error
+// localhost:3001/wallposts/avg?loc="2"
 router.get('/avg', function(req, res, next) {
-	Wallpost.aggregate( [ { $group: { _id: "$location", avgRating: { $avg: "$rating" } } } ] )
-		.then(function(checkins) {
-			res.status(200).json(checkins);
+	Wallpost.aggregate( [ { $match: { "location": req.params.loc } }, { $group: { _id: "$location", avgRating: { $avg: "$rating" } } } ] )
+		.then(function(wallposts) {
+			res.status(200).json(wallposts);
 		}, function(err) {
 			return next(err);
 		});
@@ -59,7 +61,7 @@ router.get('/avg', function(req, res, next) {
 
 // untested because of above error
 router.get('/place/:placeId', function(req, res, next) {
-	return handlers.basicGet(Checkin, {query: {'location.placeId' : req.params.placeId}})(req, res, next);
+	return handlers.basicGet(Wallpost, {query: {'location.placeId' : req.params.placeId}})(req, res, next);
 });
 
 module.exports = router;

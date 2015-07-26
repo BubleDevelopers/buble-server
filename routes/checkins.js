@@ -28,6 +28,7 @@ router.delete('/:id', handlers.basicDelete(Checkin));
 [phonegap] n.event.add/r.handle@http://localhost:3000/js/lib/jquery.min.js:3:3202
  */
 
+// localhost:3001/checkins/near?lat=5&long=5&rad=2
 router.get('/near', function(req, res, next) 
 {
 	var lat = req.params.lat;

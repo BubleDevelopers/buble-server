@@ -8,6 +8,9 @@ var User = require('../models/User').User;
 // CUSTOM ROUTES
 
 router.get('/me', function(req, res, next) {
+	// REMOVE THIS LINE AND RESTORE REST OF METHOD BODY WHEN DONE TESTING
+	res.status(200);
+	/*
 	console.log(req.session);
 	if (req.session.passport.user) {
 		User.findById(req.session.passport.user)
@@ -19,6 +22,7 @@ router.get('/me', function(req, res, next) {
 	} else {
 		res.status(403).json({message: 'You are not authenticated'});
 	}
+	*/
 });
 
 // BASIC REST ROUTES

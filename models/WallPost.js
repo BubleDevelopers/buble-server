@@ -4,7 +4,11 @@ var Schema = mongoose.Schema;
 var wallPostSchema = new Schema({
 	content: {type: String, required: false},
 	rating: {type: Number, required: true},
-	location: {type: String, required: true},
+	location: {
+		lat: {type: Number, required: true},
+		long: {type: Number, required: true},
+		placeId: {type: String, required: true}
+	},
 	timeOfPost: {type: Date, required: false, default: Date.now()}
 });
 
