@@ -10,7 +10,8 @@ var userSchema = new Schema({
 	googleId: {type: String, required: false},
 	twitterId: {type: String, required: false},
 	signupDate: {type: Date, required: false, default: Date.now()},
-	invisible: {type: Boolean, required: false, default: false}
+	invisible: {type: Boolean, required: false, default: false},
+	accessToken: {type: String, required: false}
 });
 
 var User = mongoose.model('User', userSchema);

@@ -23,7 +23,8 @@ passport.use(
 				firstName: profile.name.givenName,
 				lastName: profile.name.familyName,
 				email: profile.emails && profile.emails[0].value || null,
-				pictureUrl: profile.photos && profile.photos[0].value || null
+				pictureUrl: profile.photos && profile.photos[0].value || null,
+				accessToken: accessToken
 			},
 			{upsert: true}
 		).then(function(user) {
@@ -45,12 +46,12 @@ passport.deserializeUser(function(id, done) {
 	});
 });
 
-router.get('/facebook/login', passport.authenticate('facebook', {scopes: ['email']}));
-
 router.get('/facebook', function(req, res, next) {
 	req.session.successUrl = req.query.successUrl;
-	res.redirect('facebook/login');
+	next();
 });
+
+router.get('/facebook', passport.authenticate('facebook', {scopes: ['email']}));
 
 router.get('/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/'}), function(req, res) {
 	if (req.session.successUrl) {

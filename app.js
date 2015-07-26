@@ -14,7 +14,7 @@ mongoose.connect('mongodb://localhost/buble0');
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-www-form-urlencoded
 app.use(cors());
-app.use(session({secret: 'buble rules', saveUninitialized: true}));
+app.use(session({secret: 'buble rules', resave: true, saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 
