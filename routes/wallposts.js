@@ -34,7 +34,7 @@ router.get('/near', function(req, res, next)
 	var rad = req.params.rad;
 	if (req.params.lat !== undefined && req.params.long !== undefined && req.params.rad !== undefined)
 	{
-		Checkin.find( { "location.lat": { $gt: (lat - rad), $lt: (lat - (rad * -1)) }, "location.long": { $gt: (long - rad), $lt: (long - (rad * -1)) } } )
+		Wallpost.find( { "location.lat": { $gt: (lat - rad), $lt: (lat - (rad * -1)) }, "location.long": { $gt: (long - rad), $lt: (long - (rad * -1)) } } )
 			.then(function(checkins) {
 				res.status(200).json(checkins);
 			}, function(err) {
@@ -46,6 +46,16 @@ router.get('/near', function(req, res, next)
 		res.status(400);
 	}
 });
+
+// untested because of above error
+router.get('/avg', function(req, res, next) {
+	Wallpost.aggregate( [ { $group: { _id: "$location", avgRating: { $avg: "$rating" } } } ] )
+		.then(function(checkins) {
+			res.status(200).json(checkins);
+		}, function(err) {
+			return next(err);
+		});
+}
 
 // untested because of above error
 router.get('/place/:placeId', function(req, res, next) {
