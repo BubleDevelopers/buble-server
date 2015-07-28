@@ -50,7 +50,7 @@ GET /api/checkins/place/:placeId
 
 Description: Returns all checkins with entered placeId
 
-Example: localhost:3001/place/987654321
+Example: localhost:3001/checkins/place/987654321
 
 Return: A list of checkins in JSON format. Each checkin will be in the below format
 
@@ -96,9 +96,9 @@ GET /api/wallposts/near
 
 Description: Returns all wallposts within entered radius of entered longitude and latitude
 
-Example: localhost:3001/wallpost/near?lat=5&long=8&rad=2
+Example: localhost:3001/wallposts/near?lat=5&long=8&rad=2
 
-Returns: A list of wallposts in JSON format. Each checkin will be in the below format
+Returns: A list of wallposts in JSON format. Each wallpost will be in the below format
 
 ```json
 {
@@ -115,8 +115,11 @@ Returns: A list of wallposts in JSON format. Each checkin will be in the below f
 ```
 
 GET /api/wallposts/place/:placeId
+
 Description: Returns all wallposts with entered placeId
-Example: localhost:3001/place/987654321
+
+Example: localhost:3001/wallposts/place/987654321
+
 Returns: A list of wallposts in JSON format. Each wallpost will be in the below format
 
 ```json
@@ -138,10 +141,76 @@ GET /api/wallposts/avg
 
 Description: Returns an aggregation object that contains the average rating of all wallposts from the input location
 
-Example: localhost:3001/avg?loc="2"
+Example: localhost:3001/wallposts/avg?loc="2"
 
 Returns: A mongodb aggregation object in JSON format
 
 ```json
 { "_id" : "2", "avgRating": 3.5 }
+```
+
+GET /api/wallposts/three
+
+Description: Returns all wallposts created within the last three hours
+
+Example: localhost:3001/wallposts/three
+
+Returns: A list of wallposts in JSON format. Each wallpost will be in the below format
+
+```json
+{
+	content: ~ ,
+	rating: ~ ,
+	location
+	{
+		lat: ~,
+		long: ~,
+		placeId: ~
+	}
+	timeOfPost: ~
+}
+```
+
+GET /api/wallposts/day
+
+Description: Returns all wallposts created within the last twenty-four hours
+
+Example: localhost:3001/wallposts/day
+
+Returns: A list of wallposts in JSON format. Each wallpost will be in the below format
+
+```json
+{
+	content: ~ ,
+	rating: ~ ,
+	location
+	{
+		lat: ~,
+		long: ~,
+		placeId: ~
+	}
+	timeOfPost: ~
+}
+```
+
+DELETE /api/wallposts/day
+
+Description: Deletes all wallposts not created within the last twenty-four hours
+
+Example: localhost:3001/wallposts/day
+
+Returns: A list of wallposts in JSON format. Each wallpost will be in the below format
+
+```json
+{
+	content: ~ ,
+	rating: ~ ,
+	location
+	{
+		lat: ~,
+		long: ~,
+		placeId: ~
+	}
+	timeOfPost: ~
+}
 ```

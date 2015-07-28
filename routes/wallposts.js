@@ -13,39 +13,52 @@ router.post('/', handlers.basicPost(WallPost));
 router.delete('/:id', handlers.basicDelete(WallPost));
 
 // CUSTOM ROUTES
-/*
-[phonegap] [console.error] Error: 'coords' getter called on an object that does not implement interface Position.
-[phonegap] ha@http://localhost:3000/js/lib/angular.min.js:13:27
-[phonegap] ha@http://localhost:3000/js/lib/angular.min.js:13:28
-[phonegap] Pe/this.$get</n.prototype.$digest@http://localhost:3000/js/lib/angular.min.js:123:250
-[phonegap] Pe/this.$get</n.prototype.$apply@http://localhost:3000/js/lib/angular.min.js:126:291
-[phonegap] eg</this.$$debounceViewValueCommit@http://localhost:3000/js/lib/angular.min.js:227:362
-[phonegap] eg</this.$setViewValue@http://localhost:3000/js/lib/angular.min.js:227:90
-[phonegap] jb/l@http://localhost:3000/js/lib/angular.min.js:153:464
-[phonegap] n.event.dispatch@http://localhost:3000/js/lib/jquery.min.js:3:6392
-[phonegap] n.event.add/r.handle@http://localhost:3000/js/lib/jquery.min.js:3:3202
-*/
-// test works
-// localhost:3001/wallposts/near?lat=5&long=5&rad=2
+// Retrieves all wallposts within a vertain radius of a specified latitude and longitude
+// Works as expected
 router.get('/near', function(req, res, next) 
 {
-	var lat = req.params.lat;
-	var long = req.params.long;
-	var rad = req.params.rad;
-	if (req.params.lat !== undefined && req.params.long !== undefined && req.params.rad !== undefined)
-	{
-		//was getting weird errors that ended up being due to the + sigh acting as a concatenator instead of adding two variables. changed it to a - sign and everything worked correctly
-		Wallpost.find( { "location.lat": { $gt: (lat - rad), $lt: (lat - (rad * -1)) }, "location.long": { $gt: (long - rad), $lt: (long - (rad * -1)) } } )
-			.then(function(wallposts) {
-				res.status(200).json(wallposts);
-			}, function(err) {
-				return next(err);
-			});
-	}
-	else 
-	{
-		res.status(400);
-	}
+	Wallpost.find( { "location.lat": { $gt: (lat - rad), $lt: (lat - (rad * -1)) }, "location.long": { $gt: (long - rad), $lt: (long - (rad * -1)) } } )
+		.then(function(wallposts) {
+			res.status(200).json(wallposts);
+		}, function(err) {
+			return next(err);
+		});
+});
+
+// Retrieves all wallposts created within the last three hours
+// UNTESTED
+router.get('/three', function(req, res, next) 
+{
+	Wallpost.find( { $where: function() { return Date.now() - this._id.getTimeStamp() < ( 3 * 60 * 60 * 1000 ) } } )
+		.then(function(wallposts) {
+			res.status(200).json(wallposts);
+		}, function(err) {
+			return next(err);
+		});
+});
+
+// Retrieves all wallposts created within the last twenty-four hours
+// UNTESTED
+router.get('/day', function(req, res, next) 
+{
+	Wallpost.find( { $where: function() { return Date.now() - this._id.getTimeStamp() < ( 24 * 60 * 60 * 1000 ) } } )
+		.then(function(wallposts) {
+			res.status(200).json(wallposts);
+		}, function(err) {
+			return next(err);
+		});
+});
+
+// Retrieves all wallposts created within the last twenty-four hours
+// WON'T WORK
+router.delete('/day', function(req, res, next) 
+{
+	Wallpost.remove( { $where: function() { return Date.now() - this._id.getTimeStamp() > ( 24 * 60 * 60 * 1000 ) } } )
+		.then(function(wallposts) {
+			res.status(200).json(wallposts);
+		}, function(err) {
+			return next(err);
+		});
 });
 
 // untested because of above error
