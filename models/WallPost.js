@@ -9,7 +9,6 @@ var wallPostSchema = new Schema({
 		long: {type: Number, required: true},
 		placeId: {type: String, required: true}
 	},
-	timeOfPost: {type: Date, required: false, default: Date.now()}
 });
 
 var WallPost = mongoose.model('WallPost', wallPostSchema);

@@ -29,7 +29,7 @@ router.get('/near', function(req, res, next)
 // UNTESTED
 router.get('/three', function(req, res, next) 
 {
-	Wallpost.find( { $where: function() { return Date.now() - this._id.getTimeStamp() < ( 3 * 60 * 60 * 1000 ) } } )
+	Wallpost.find( { $where: function() { return Date.now() - this._id.getTimestamp() < ( 3 * 60 * 60 * 1000 ) } } )
 		.then(function(wallposts) {
 			res.status(200).json(wallposts);
 		}, function(err) {
@@ -55,7 +55,7 @@ router.delete('/day', function(req, res, next)
 {
 	Wallpost.remove( { $where: function() { return Date.now() - this._id.getTimeStamp() > ( 24 * 60 * 60 * 1000 ) } } )
 		.then(function(wallposts) {
-			res.status(200).json(wallposts);
+			res.status(200);
 		}, function(err) {
 			return next(err);
 		});
@@ -77,4 +77,9 @@ router.get('/place/:placeId', function(req, res, next) {
 	return handlers.basicGet(Wallpost, {query: {'location.placeId' : req.params.placeId}})(req, res, next);
 });
 
+///////////////////////////////////////
+// FORMULA FOR COMBINED SEARCH ROUTE //
+///////////////////////////////////////
+
+// find( { "location.lat": { $gt: (lat - rad), $lt: (lat - (rad * -1)) }, "location.long": { $gt: (long - rad), $lt: (long - (rad * -1)) }, $where: function() { return Date.now() - this._id.getTimeStamp() > ( 24 * 60 * 60 * 1000 ) } } )
 module.exports = router;
