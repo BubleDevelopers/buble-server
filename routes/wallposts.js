@@ -1,28 +1,37 @@
 'use strict';
 
-var express = require('express');
-var router = express.Router();
-var handlers = require('../handlers');
-var WallPost = require('../models/WallPost').WallPost;
+var express  = 	require('express');
+var router   = 	express.Router();
+var handlers = 	require('../handlers');
+var WallPost = 	require('../models/WallPost').WallPost;
 
 // BASIC REST ROUTES
 
-router.get('/', handlers.basicGetAll(WallPost));
-router.get('/:id', handlers.basicGetById(WallPost));
-router.post('/', handlers.basicPost(WallPost));
-router.delete('/:id', handlers.basicDelete(WallPost));
+router.get		('/', 		handlers.basicGetAll(WallPost));
+router.get		('/:id', 	handlers.basicGetById(WallPost));
+router.post		('/', 		handlers.basicPost(WallPost));
+router.delete	('/:id', 	handlers.basicDelete(WallPost));
 
 // CUSTOM ROUTES
-// Retrieves all wallposts within a vertain radius of a specified latitude and longitude
-// Works as expected
-router.get('/near', function(req, res, next) 
+router.get('/near', function(req, res, next)
 {
-	Wallpost.find( { "location.lat": { $gt: (lat - rad), $lt: (lat - (rad * -1)) }, "location.long": { $gt: (long - rad), $lt: (long - (rad * -1)) } } )
-		.then(function(wallposts) {
-			res.status(200).json(wallposts);
-		}, function(err) {
-			return next(err);
-		});
+	var lat  = req.params.lat;
+	var long = req.params.long;
+	var rad  = req.params.rad;
+	if (req.params.lat !== null && req.params.long !== null && req.params.rad !== null)
+	{
+		// for some reason the plus sign was concatenating the numbers but the subtraction sign was behaving normally so instead of adding the radius I subtracted the radius multiplied by -1
+		Checkin.find( { "location.lat": { $gt: (lat - rad), $lt: (lat - (rad * -1)) }, "location.long": { $gt: (long - rad), $lt: (long - (rad * -1)) } } )
+			.then(function(wallposts) {
+				res.status(200).json(wallposts);
+			}, function(err) {
+				return next(err);
+			});
+	}
+	else
+	{
+			res.status(400);
+	}
 });
 
 // Retrieves all wallposts created within the last three hours
@@ -81,5 +90,60 @@ router.get('/place/:placeId', function(req, res, next) {
 // FORMULA FOR COMBINED SEARCH ROUTE //
 ///////////////////////////////////////
 
-// find( { "location.lat": { $gt: (lat - rad), $lt: (lat - (rad * -1)) }, "location.long": { $gt: (long - rad), $lt: (long - (rad * -1)) }, $where: function() { return Date.now() - this._id.getTimeStamp() > ( 24 * 60 * 60 * 1000 ) } } )
+//find( { "location.lat": { $gt: (lat - rad), $lt: (lat - (rad * -1)) }, "location.long": { $gt: (long - rad), $lt: (long - (rad * -1)) }, $where: function() { return Date.now() - this._id.getTimeStamp() > ( 24 * 60 * 60 * 1000 ) } } ) 
+
+// Retrieves all wallposts created within the last three hours
+// UNTESTED
+// if this does work we will no longer need three or twentyfour or near
+
+router.get('/search', function(req, res, next)
+{
+	var lat   =	0;	
+	var long  =	0;
+	var rad   =	0;
+	var hours =	0;
+
+	if (req.params.lat !== null && req.params.long !== null && req.params.rad !== null && req.params.hours !== null)
+	{
+		lat   =	req.params.lat;
+		long  =	req.params.long;
+		rad   =	req.params.rad;
+		hours = req.params.hours;
+
+		Checkin.find({ "location.lat": { $gt: (lat - rad), $lt: (lat - (rad * -1)) }, "location.long": { $gt: (long - rad), $lt: (long - (rad * -1)) }, $where: function() { return Date.now() - this._id.getTimeStamp() > ( hours * 60 * 60 * 1000 ) } } ) 
+			.then(function(wallposts) {
+				res.status(200).json(wallposts);
+			}, function(err) {
+				return next(err);
+			});
+	}
+	else if (req.params.lat !== null && req.params.long !== null && req.params.rad !== null)
+	{
+		lat   = req.params.lat;
+		long  = req.params.long;
+		rad   = req.params.rad;
+		// for some reason the plus sign was concatenating the numbers but the subtraction sign was behaving normally so instead of adding the radius I subtracted the radius multiplied by -1
+		Checkin.find( { "location.lat": { $gt: (lat - rad), $lt: (lat - (rad * -1)) }, "location.long": { $gt: (long - rad), $lt: (long - (rad * -1)) } } )
+			.then(function(wallposts) {
+				res.status(200).json(wallposts);
+			}, function(err) {
+				return next(err);
+			});
+	}
+	else if (req.params.hours !== null)
+	{
+		hours = req.params.hours;
+		Wallpost.find( { $where: function() { return Date.now() - this._id.getTimestamp() < ( hours * 60 * 60 * 1000 ) } } )
+			.then(function(wallposts) {
+				res.status(200).json(wallposts);
+			}, function(err) {
+				return next(err);
+			});
+	}
+	else
+	{
+			res.status(400);
+	}
+});
+
 module.exports = router;
