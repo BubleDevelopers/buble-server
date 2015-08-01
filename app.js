@@ -2,23 +2,34 @@
 
 var express = require('express');
 var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+
 var cors = require('cors');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+// var cookieParser = require('cookie-parser');
 var passport = require('passport');
-//var facebookInit = require('./oauth/loadscript');
 var app = express();
 
 mongoose.connect('mongodb://localhost/buble0');
 
+// app.use(cookieParser('buble rules'));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-www-form-urlencoded
 app.use(cors());
-app.use(session({secret: 'buble rules', resave: true, saveUninitialized: true}));
+app.use(session({
+	secret: 'buble rules',
+	store: new MongoStore({mongooseConnection: mongoose.connection}),
+	cookie: {secure: false, maxAge: 1000 * 60 * 60 * 24}
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
 function isLoggedIn(req, res, next) {
+	console.log('\n=================\nVERIFYING USER IS LOGGED IN\n=================');
+	console.log('Session: ', req.session);
+	console.log('Session ID: ', req.session.id);
+	console.log('isAuthenticated result: ', req.isAuthenticated());
 	if (req.isAuthenticated()) {
 		return next();
 	}
