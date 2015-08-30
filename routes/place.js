@@ -10,8 +10,6 @@ var Place    = 	require('../models/Place').Place;
 router.get		('/', 		handlers.basicGetAll(Place);
 router.get		('/:id', 	handlers.basicGetById(Place);
 router.post		('/', 		handlers.basicPost(Place);
-router.delete	('/:id', 	handlers.basicDelete(Place);
-
-
+router.delete		('/:id', 	handlers.basicDelete(Place);
 
 module.exports = router;
