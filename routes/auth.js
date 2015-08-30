@@ -8,8 +8,8 @@ var User = require('../models/User').User;
 
 passport.use(
 	new FacebookStrategy({
-		clientID: '412323722284415',
-		clientSecret: '42e8a32e0568899cc72747cdd915377f',
+		clientID: '732747833523721',
+		clientSecret: '700a52f426328e76098e9d18db62604d',
 		callbackURL: 'http://localhost:3001/auth/facebook/callback',
 		passReqToCallback: true
 	},

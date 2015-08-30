@@ -79,7 +79,7 @@ router.get('/avg', function(req, res, next) {
 		}, function(err) {
 			return next(err);
 		});
-}
+});
 
 // untested because of above error
 router.get('/place/:placeId', function(req, res, next) {
